@@ -13,7 +13,7 @@ def index():
 
 
 @app.route("/ai/example", methods=["POST"])
-@cross_origin()
+@cross_origin(supports_credentials=True)
 def upload_file():
     try:
         image_data = request.form.get("image")
