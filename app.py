@@ -2,25 +2,22 @@ from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from deepface import DeepFace
 
-app = Flask("face_recognition")
+app = Flask(__name__)
 
-cors = CORS(app)
+CORS(app)
 
 
-@cross_origin()
 @app.route("/", methods=["GET"])
 def index():
     return "hi"
 
 
-@cross_origin()
 @app.route("/ai/example", methods=["POST"])
+@cross_origin(supports_credentials=True)
 def upload_file():
     try:
         image_data = request.form.get("image")
-        print(image_data)
         result = DeepFace.analyze(img_path=image_data, actions=["emotion"])
-        print(result)
 
         return result[0]["dominant_emotion"]
 
